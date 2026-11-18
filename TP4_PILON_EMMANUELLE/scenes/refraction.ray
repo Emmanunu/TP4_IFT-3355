@@ -1,0 +1,63 @@
+# scenes/refraction.ray
+Dimensions 640 480
+Perspective 30.0 1.33 0.1 20
+
+# Vue de face pour bien voir l'effet de loupe
+LookAt  0.0 0.0 6.0
+        0.0 0.0 0.0
+        0.0 1.0 0.0
+
+PointLight 5 5 5
+    "ambient"     [0.1 0.1 0.1]
+    "diffuse"     [1.0 1.0 1.0]
+    "specular"    [1.0 1.0 1.0]
+    "attenuation" [1.0 0.0 0.0]
+
+# --- MATÉRIAUX ---
+
+# Verre : Diffuse noir, Refract 1.0 (total), IOR 1.5 (indice du verre)
+Material "glass"
+    "ambient"   [0.0 0.0 0.0]
+    "diffuse"   [0.0 0.0 0.0]
+    "specular"  [0.9 0.9 0.9]
+    "shininess" 100.0
+    "reflect"   0.1
+    "refract"   1.0
+    "ior"       1.5
+
+Material "red"
+    "diffuse"   [1.0 0.0 0.0]
+    "specular"  [0.2 0.2 0.2]
+
+Material "green"
+    "diffuse"   [0.0 1.0 0.0]
+    "specular"  [0.2 0.2 0.2]
+
+Material "wall"
+    "diffuse"   [0.5 0.5 0.5]
+
+# --- OBJETS ---
+
+# 1. La sphère en verre au premier plan (Centre)
+PushMatrix
+    Sphere 1.0 "glass"
+PopMatrix
+
+# 2. Sphère Rouge (Derrière à gauche)
+PushMatrix
+    Translate -1.0 0.5 -2.0
+    Sphere 0.6 "red"
+PopMatrix
+
+# 3. Sphère Verte (Derrière à droite)
+PushMatrix
+    Translate 1.0 -0.5 -2.0
+    Sphere 0.6 "green"
+PopMatrix
+
+# 4. Mur du fond (pour voir la déformation globale)
+PushMatrix
+    Translate 0 0 -5.0
+    Scale 8 8 1
+    Plane "wall"
+PopMatrix
